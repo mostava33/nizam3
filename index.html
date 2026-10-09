@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f5c43">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="نظام">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <title>نظام – تنظيم الحياة والوقت</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#f4efe3;
+      --card:#fffdf8;
+      --tx:#17251f;
+      --mu:#78857d;
+      --pr:#0f5c43;
+      --pr2:#1b8a65;
+      --ac:#c19a3e;
+      --bd:#ebe3cf;
+      --shadow:0 10px 30px -14px rgba(15,60,43,.22);
+      --success:#dfeee8;
+      --danger:#f8e7c9;
+      --overlay:rgba(8, 34, 28, 0.45);
+    }
+
+    @media (prefers-color-scheme: dark){
+      :root:not([data-theme="light"]){
+        --bg:#0a110e;
+        --card:#121d17;
+        --tx:#eef3ee;
+        --mu:#8da096;
+        --pr:#2fae80;
+        --pr2:#1b8a65;
+        --ac:#e0b858;
+        --bd:#1f2e26;
+        --shadow:0 12px 28px -12px rgba(0,0,0,.55);
+      }
+    }
+
+    :root[data-theme="dark"]{
+      --bg:#0a110e;
+      --card:#121d17;
+      --tx:#eef3ee;
+      --mu:#8da096;
+      --pr:#2fae80;
+      --pr2:#1b8a65;
+      --ac:#e0b858;
+      --bd:#1f2e26;
+      --shadow:0 12px 28px -12px rgba(0,0,0,.55);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family:"Tajawal","Segoe UI",Tahoma,sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(193,154,62,.18), transparent 30%),
+        radial-gradient(circle at top left, rgba(27,138,101,.08), transparent 25%),
+        var(--bg);
+      color:var(--tx);
+      max-width:560px;
+      margin-inline:auto;
+      padding:0 0 120px;
+      line-height:1.6;
+      position:relative;
+      min-height:100vh;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0 0 auto 0;
+      height:260px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.12), transparent);
+      pointer-events:none;
+      z-index:0;
+    }
+
+    header{
+      position:relative;
+      z-index:1;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:calc(20px + env(safe-area-inset-top, 0px)) 18px 8px;
+    }
+
+    h1,h2,h3,p{ margin:0; }
+    h1{
+      font-size:26px;
+      font-weight:800;
+      letter-spacing:.5px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    h1 span{
+      background:linear-gradient(90deg,var(--ac),var(--pr2));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+      display:inline-block;
+    }
+    h2{
+      font-size:15px;
+      font-weight:700;
+      color:var(--pr);
+      margin-bottom:8px;
+    }
+
+    .mu{ color:var(--mu); font-size:13px; }
+    .small{ font-size:12px; }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--bd);
+      border-radius:22px;
+      padding:18px;
+      margin:12px 14px;
+      box-shadow:var(--shadow);
+      position:relative;
+      z-index:1;
+      animation:appear .45s ease both;
+    }
+    @keyframes appear{
+      from{ opacity:0; transform:translateY(12px); }
+      to{ opacity:1; transform:none; }
+    }
+
+    .verse{
+      position:relative;
+      overflow:hidden;
+      background:linear-gradient(135deg,#0b4a35,#0f5c43 58%,#157a58);
+      border:1px solid rgba(224,184,88,.4);
+      color:#fffaf0;
+      padding:28px 18px 20px;
+    }
+    .verse::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      opacity:.10;
+      background:repeating-conic-gradient(from 0deg at 50% 50%, rgba(255,255,255,.9) 0 5deg, transparent 5deg 22deg);
+      -webkit-mask:radial-gradient(circle at center, #000 0, transparent 72%);
+      mask:radial-gradient(circle at center, #000 0, transparent 72%);
+      pointer-events:none;
+    }
+    .verse > *{ position:relative; z-index:1; }
+    .verse .a{
+      font-family:"Amiri","Noto Naskh Arabic",serif;
+      font-size:28px;
+      line-height:2.1;
+      text-align:center;
+      margin-bottom:8px;
+    }
+    .verse .r{
+      text-align:center;
+      color:#e0b858;
+      letter-spacing:.5px;
+      font-size:12px;
+      font-weight:700;
+    }
+    .verse .actions{
+      display:flex;
+      justify-content:center;
+      margin-top:12px;
+    }
+
+    .hero{
+      display:flex;
+      align-items:center;
+      gap:16px;
+      padding:18px 18px 16px;
+    }
+    .big{
+      font-size:28px;
+      font-weight:800;
+      color:var(--tx);
+      letter-spacing:.2px;
+    }
+    .ring{
+      position:relative;
+      width:90px;
+      height:90px;
+      display:grid;
+      place-items:center;
+      flex:none;
+    }
+    .ring svg{
+      transform:rotate(-90deg);
+      width:90px;
+      height:90px;
+    }
+    .ring circle.bg{ fill:none; stroke:var(--bd); stroke-width:8; }
+    .ring circle.fill{
+      fill:none;
+      stroke:var(--ac);
+      stroke-width:8;
+      stroke-linecap:round;
+      transition:stroke-dasharray .4s ease;
+    }
+    .ring b{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:18px;
+      font-weight:800;
+      color:var(--pr);
+    }
+
+    .row{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+    .row.between{ justify-content:space-between; }
+
+    .btn{
+      font:inherit;
+      border:none;
+      border-radius:14px;
+      background:linear-gradient(135deg, var(--pr2), var(--pr));
+      color:#fff;
+      padding:10px 16px;
+      cursor:pointer;
+      font-weight:700;
+      box-shadow:0 8px 18px -10px var(--pr);
+      transition:transform .15s ease, opacity .15s ease;
+    }
+    .btn:active{ transform:scale(.97); }
+    .btn.secondary{
+      background:transparent;
+      color:var(--pr);
+      border:1.5px solid var(--pr);
+      box-shadow:none;
+    }
+    .btn.ghost{
+      background:transparent;
+      color:var(--mu);
+      border:1px solid var(--bd);
+      box-shadow:none;
+      padding:8px 12px;
+    }
+    .btn.small{ padding:8px 12px; font-size:12px; border-radius:12px; }
+
+    input, select{
+      width:100%;
+      border:1.5px solid var(--bd);
+      border-radius:14px;
+      background:var(--bg);
+      color:var(--tx);
+      padding:11px 12px;
+      font:inherit;
+      outline:none;
+    }
+    input:focus, select:focus{
+      border-color:var(--ac);
+      box-shadow:0 0 0 3px rgba(193,154,62,.1);
+    }
+
+    .it{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:12px 0;
+      border-bottom:1px solid var(--bd);
+    }
+    .it:last-child{ border-bottom:none; }
+    .task-title{ flex:1; min-width:0; word-break:break-word; }
+    .task-title.done{ text-decoration:line-through; color:var(--mu); }
+
+    .checkbox{
+      width:30px;
+      height:30px;
+      border-radius:50%;
+      border:2px solid var(--ac);
+      background:transparent;
+      color:#fff;
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      font-weight:700;
+      padding:0;
+      flex:none;
+    }
+    .checkbox.on{
+      background:linear-gradient(135deg,var(--ac),#9a7420);
+      border-color:var(--ac);
+    }
+
+    .bar{
+      height:10px;
+      background:var(--bd);
+      border-radius:999px;
+      overflow:hidden;
+      width:100%;
+      position:relative;
+    }
+    .bar i{
+      display:block;
+      height:100%;
+      width:0;
+      background:linear-gradient(90deg,var(--ac),var(--pr2));
+      border-radius:999px;
+      transition:width .4s ease;
+    }
+
+    .warn{
+      background:rgba(193,154,62,.12);
+      border:1px solid rgba(193,154,62,.45);
+      border-radius:14px;
+      padding:10px 12px;
+      margin-top:10px;
+      color:var(--tx);
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:72px;
+      border-radius:12px;
+      padding:8px 12px;
+      background:transparent;
+      color:var(--pr);
+      border:1.5px solid var(--pr);
+      font:inherit;
+      font-size:12px;
+      font-weight:700;
+      cursor:pointer;
+    }
+    .pill.active{ background:var(--pr); color:#fff; border-color:var(--pr); }
+
+    nav{
+      position:fixed;
+      left:14px;
+      right:14px;
+      bottom:calc(10px + env(safe-area-inset-bottom, 0px));
+      max-width:532px;
+      margin:auto;
+      z-index:20;
+      display:grid;
+      grid-template-columns:repeat(5, 1fr);
+      gap:6px;
+      padding:6px;
+      border-radius:24px;
+      background:var(--card);
+      border:1px solid var(--bd);
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+      box-shadow:0 16px 40px -18px rgba(0,0,0,.35);
+    }
+
+    nav button{
+      border:none;
+      background:none;
+      color:var(--mu);
+      border-radius:18px;
+      padding:8px 4px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:3px;
+      font:inherit;
+      font-size:11px;
+      font-weight:700;
+      cursor:pointer;
+    }
+    nav button svg{ width:22px; height:22px; display:block; }
+    nav button.active{
+      background:linear-gradient(135deg,var(--pr2),var(--pr));
+      color:#fff;
+    }
+
+    .overlay{
+      position:fixed;
+      inset:0;
+      z-index:50;
+      background:radial-gradient(circle at 50% 25%, rgba(224,184,88,.22), transparent 42%), linear-gradient(160deg,#08382a,#0f5c43 60%,#157a58);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:24px;
+      transition:opacity .45s ease;
+    }
+    .overlay.hidden{ opacity:0; pointer-events:none; }
+    .overlay .box{ color:#fffaf0; max-width:360px; }
+    .overlay .greeting{
+      font-size:18px;
+      color:#e0b858;
+      margin-bottom:18px;
+      letter-spacing:1px;
+    }
+    .overlay .verse{
+      background:none;
+      box-shadow:none;
+      border:none;
+      padding:0;
+      margin:0;
+      animation:none;
+    }
+    .overlay .verse .a{ font-size:30px; margin:0; }
+    .overlay .verse .r{ margin-top:8px; font-size:13px; }
+    .overlay button{
+      margin-top:24px;
+      padding:12px 28px;
+      border-radius:24px;
+      border:1px solid rgba(224,184,88,.7);
+      background:rgba(255,255,255,.12);
+      color:#fffaf0;
+      font:inherit;
+      font-weight:700;
+      cursor:pointer;
+    }
+
+    .toast{
+      position:fixed;
+      top:calc(12px + env(safe-area-inset-top, 0px));
+      left:14px;
+      right:14px;
+      margin:auto;
+      max-width:532px;
+      z-index:60;
+      background:var(--pr);
+      color:#fff;
+      border:1px solid rgba(224,184,88,.8);
+      border-radius:16px;
+      box-shadow:var(--shadow);
+      padding:12px 16px;
+      transform:translateY(-160%);
+      transition:transform .35s ease;
+      font-weight:700;
+    }
+    .toast.show{ transform:none; }
+
+    .donut{ position:relative; width:130px; height:130px; flex:none; }
+    .donut svg{ width:130px; height:130px; transform:rotate(-90deg); display:block; }
+    .donut .dc{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
+    .donut .dc b{ font-size:20px; font-weight:800; color:var(--pr); line-height:1.2; }
+    .donut .dc span{ font-size:11px; color:var(--mu); }
+    .legend{ flex:1; min-width:0; display:flex; flex-direction:column; gap:6px; }
+    .legend .li{ display:flex; align-items:center; gap:8px; font-size:13px; }
+    .legend .dot{ width:10px; height:10px; border-radius:50%; flex:none; }
+    .legend .nm{ flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .chart-row{ display:flex; align-items:center; gap:16px; }
+    @media (max-width:420px){
+      .hero{ gap:12px; }
+      .big{ font-size:22px; }
+      .ring{ transform:scale(.9); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--ac)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M5 19c0-8 5-14 15-14 0 10-6 15-14 15"></path>
+        <path d="M5 19L14 10"></path>
+      </svg>
+      <span>نظام</span>
+    </h1>
+    <div class="row" style="gap:8px; flex-wrap:nowrap;"><div class="mu" id="dateText"></div><button class="btn ghost small" id="themeBtn" onclick="toggleTheme()" aria-label="الوضع الداكن">🌙</button></div>
+  </header>
+
+  <main id="app"></main>
+  <nav id="nav"></nav>
+
+  <script>
+    const STORAGE_KEY = "nizam_app_v2";
+    const VERSES = [
+      ["إِنَّ مَعَ الْعُسْرِ يُسْرًا", "الشرح: 6", "g"],
+      ["وَقُل رَّبِّ زِدْنِي عِلْمًا", "طه: 114", "s"],
+      ["يَرْفَعِ اللَّهُ الَّذِينَ آمَنُوا مِنكُمْ وَالَّذِينَ أُوتُوا الْعِلْمَ دَرَجَاتٍ", "المجادلة: 11", "s"],
+      ["وَأَن لَّيْسَ لِلْإِنسَانِ إِلَّا مَا سَعَىٰ", "النجم: 39", "s"],
+      ["وَاسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ", "البقرة: 45", "g"],
+      ["وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ", "الطلاق: 3", "g"],
+      ["فَإِذَا عَزَمْتَ فَتَوَكَّلْ عَلَى اللَّهِ", "آل عمران: 159", "g"],
+      ["لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا", "البقرة: 286", "g"],
+      ["إِنَّ الصَّلَاةَ كَانَتْ عَلَى الْمُؤْمِنِينَ كِتَابًا مَّوْقُوتًا", "النساء: 103", "p"],
+      ["حَافِظُوا عَلَى الصَّلَوَاتِ وَالصَّلَاةِ الْوُسْطَىٰ", "البقرة: 238", "p"],
+      ["وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا", "الطلاق: 2", "g"],
+      ["أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ", "الرعد: 28", "g"],
+      ["فَاذْكُرُونِي أَذْكُرْكُمْ", "البقرة: 152", "g"],
+      ["إِنَّ اللَّهَ مَعَ الصَّابِرِينَ", "البقرة: 153", "g"],
+      ["رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي", "طه: 25-26", "s"],
+      ["هَلْ يَسْتَوِي الَّذِينَ يَعْلَمُونَ وَالَّذِينَ لَا يَعْلَمُونَ", "الزمر: 9", "s"],
+      ["فَاصْبِرْ إِنَّ وَعْدَ اللَّهِ حَقٌّ", "غافر: 55", "g"],
+      ["وَلَسَوْفَ يُعْطِيكَ رَبُّكَ فَتَرْضَىٰ", "الضحى: 5", "g"],
+      ["وَأَقِمِ الصَّلَاةَ لِذِكْرِي", "طه: 14", "p"],
+      ["إِنَّ الصَّلَاةَ تَنْهَىٰ عَنِ الْفَحْشَاءِ وَالْمُنكَرِ", "العنكبوت: 45", "p"],
+      ["وَقُلِ اعْمَلُوا فَسَيَرَى اللَّهُ عَمَلَكُمْ", "التوبة: 105", "g"]
+    ];
+
+    const AZKAR_LIST = [
+      ["بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ", 3],
+      ["أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ", 3],
+      ["حَسْبِيَ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ", 7],
+      ["سُبْحَانَ اللَّهِ وَبِحَمْدِهِ", 100],
+      ["لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ", 10],
+      ["أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ", 100],
+      ["اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَىٰ نَبِيِّنَا مُحَمَّدٍ", 10]
+    ];
+
+    const PRAYER_NAMES = [
+      ["fajr","الفجر"],
+      ["dhuhr","الظهر"],
+      ["asr","العصر"],
+      ["maghrib","المغرب"],
+      ["isha","العشاء"]
+    ];
+
+    const DEFAULT_STATE = {
+      tasks: [],
+      prayers: {},
+      log: {},
+      savedVerses: [],
+      subjects: ["مادة 1"],
+      study: { running:false, left:1500, elapsed:0, currentSubject:0, paused:null },
+      location: { lat:30.0444, lng:31.2357, name:"القاهرة" },
+      notifications:true,
+      azkar:{},
+      lastVerseIndex:0,
+      theme:"auto"
+    };
+
+    let appState = loadState();
+    let activeTab = 0;
+    let currentVerseIndex = appState.lastVerseIndex || 0;
+    let azkarMode = "morning";
+    let toastTimer = null;
+    let studyTimer = null;
+    let fired = new Set();
+
+    function loadState(){
+      try{
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if(!raw) return structuredClone(DEFAULT_STATE);
+        const parsed = JSON.parse(raw);
+        return { ...structuredClone(DEFAULT_STATE), ...parsed };
+      }catch{
+        return structuredClone(DEFAULT_STATE);
+      }
+    }
+
+    function saveState(){
+      try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(appState)); }catch{}
+    }
+
+    function getTodayKey(date = new Date()){
+      const d = new Date(date);
+      const y = d.getFullYear();
+      const m = String(d.getMonth()+1).padStart(2,"0");
+      const day = String(d.getDate()).padStart(2,"0");
+      return y + "-" + m + "-" + day;
+    }
+
+    function esc(str){
+      return String(str).replace(/[&<>"]/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;" }[c]));
+    }
+
+    function formatClock(date){
+      return date.toLocaleTimeString("ar-EG", {hour:"2-digit", minute:"2-digit"});
+    }
+
+    function formatDurationSec(total){
+      const minutes = Math.floor(total / 60);
+      const seconds = total % 60;
+      return String(minutes).padStart(2,"0") + ":" + String(seconds).padStart(2,"0");
+    }
+
+    function pickVerse(){
+      let next = Math.floor(Math.random() * VERSES.length);
+      if(VERSES.length > 1){
+        while(next === currentVerseIndex){
+          next = Math.floor(Math.random() * VERSES.length);
+        }
+      }
+      currentVerseIndex = next;
+      appState.lastVerseIndex = next;
+      saveState();
+      return VERSES[next];
+    }
+
+    function isDarkNow(){
+      if (appState.theme === "dark") return true;
+      if (appState.theme === "light") return false;
+      return window.matchMedia("(prefers-color-scheme: dark)").matches;
+    }
+
+    function checkTheme(){
+      const dark = isDarkNow();
+      document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
+      const btn = document.getElementById("themeBtn");
+      if (btn) btn.textContent = dark ? "☀️" : "🌙";
+    }
+
+    function toggleTheme(){
+      appState.theme = isDarkNow() ? "light" : "dark";
+      saveState();
+      checkTheme();
+    }
+
+    /* جرس */
+    let audioCtx = null;
+    function getAudio(){
+      try{
+        if(!audioCtx){
+          const AC = window.AudioContext || window.webkitAudioContext;
+          if(AC) audioCtx = new AC();
+        }
+        if(audioCtx && audioCtx.state === "suspended") audioCtx.resume();
+      }catch{}
+      return audioCtx;
+    }
+
+    function playBell(){
+      const ctx = getAudio();
+      if(!ctx) return;
+      const t = ctx.currentTime;
+      [880, 1318.5, 1760].forEach((f, i) => {
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.type = "sine";
+        o.frequency.value = f;
+        g.gain.setValueAtTime(0, t);
+        g.gain.linearRampToValueAtTime(0.28 / (i + 1), t + 0.01);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + 1.8);
+        o.connect(g);
+        g.connect(ctx.destination);
+        o.start(t);
+        o.stop(t + 1.9);
+      });
+      try{ if(navigator.vibrate) navigator.vibrate(120); }catch{}
+    }
+    document.addEventListener("click", getAudio, { once:true });
+    document.addEventListener("touchstart", getAudio, { once:true });
+
+    function toast(msg){
+      let el = document.getElementById("toast");
+      if(!el){
+        el = document.createElement("div");
+        el.id = "toast";
+        el.className = "toast";
+        document.body.appendChild(el);
+      }
+      el.textContent = msg;
+      el.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(()=>el.classList.remove("show"), 3500);
+    }
+
+    /* حساب مواقيت الصلاة (الهيئة المصرية: فجر 19.5° / عشاء 17.5°) */
+    function prayerTimes(date){
+      const lat = appState.location.lat;
+      const lng = appState.location.lng;
+      const tz = -date.getTimezoneOffset() / 60;
+      const rad = Math.PI / 180;
+      const deg = 180 / Math.PI;
+      const D = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 12) / 86400000 + 2440587.5 - 2451545;
+      const g = (((357.529 + 0.98560028 * D) % 360) + 360) % 360 * rad;
+      const q = (((280.459 + 0.98564736 * D) % 360) + 360) % 360;
+      const L = (((q + 1.915 * Math.sin(g) + 0.02 * Math.sin(2*g)) % 360) + 360) % 360 * rad;
+      const e = (23.439 - 4e-7 * D) * rad;
+      const RA = ((Math.atan2(Math.cos(e) * Math.sin(L), Math.cos(L)) * deg / 15) + 24) % 24;
+      const dec = Math.asin(Math.sin(e) * Math.sin(L));
+      let eq = q / 15 - RA;
+      eq = ((eq + 12) % 24 + 24) % 24 - 12;
+      const noon = 12 + tz - lng / 15 - eq;
+      const la = lat * rad;
+
+      const hoursAt = (angleDeg) => {
+        const a = angleDeg * rad;
+        const cosValue = (Math.sin(a) - Math.sin(la) * Math.sin(dec)) / (Math.cos(la) * Math.cos(dec));
+        return Math.acos(Math.max(-1, Math.min(1, cosValue))) * deg / 15;
+      };
+
+      const asrAlt = Math.atan(1 / (1 + Math.tan(Math.abs(la - dec)))) * deg;
+      const h = {
+        fajr: noon - hoursAt(-19.5),
+        dhuhr: noon + 0.04,
+        asr: noon + hoursAt(asrAlt),
+        maghrib: noon + hoursAt(-0.833) + 0.02,
+        isha: noon + hoursAt(-17.5)
+      };
+
+      const out = {};
+      for (const [key] of PRAYER_NAMES) {
+        const dt = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        dt.setMinutes(Math.round(h[key] * 60));
+        out[key] = dt;
+      }
+      return out;
+    }
+
+    function nextPrayer(){
+      const now = new Date();
+      const today = prayerTimes(now);
+      for (const [key, label] of PRAYER_NAMES) {
+        if (today[key] > now) return { key, label, time: today[key] };
+      }
+      const tomorrow = prayerTimes(new Date(now.getTime() + 86400000));
+      return { key:"fajr", label:"الفجر", time: tomorrow.fajr };
+    }
+
+    function prayerProgress(){
+      const todayPrayers = appState.prayers[getTodayKey()] || {};
+      return Object.values(todayPrayers).filter(Boolean).length;
+    }
+
+    function dailyLogSeconds(dateKey){
+      const day = appState.log[dateKey] || {};
+      return Object.values(day).reduce((sum, val) => sum + Number(val || 0), 0);
+    }
+
+    function renderHome(){
+      const now = new Date();
+      const next = nextPrayer();
+      const todayMinutes = Math.round(dailyLogSeconds(getTodayKey()) / 60);
+      const totalCompleted = prayerProgress();
+      const totalQ = 5;
+      const leftSec = Math.max(0, Math.round((next.time - now) / 1000));
+      const hours = Math.floor(leftSec / 3600);
+      const minutes = Math.floor((leftSec % 3600) / 60);
+      const verse = VERSES[appState.lastVerseIndex] || VERSES[0];
+      const tasksOpen = appState.tasks.filter(t => !t.done).slice(0,4);
+
+      return `
+        <section class="card verse">
+          <div class="a">﴿ ${esc(verse[0])} ﴾</div>
+          <div class="r">${esc(verse[1])}</div>
+          <div class="actions">
+            <button class="btn secondary" onclick="toggleVerseSave(${appState.lastVerseIndex || 0})">
+              ${appState.savedVerses.includes(verse[0]) ? "♥ محفوظة" : "♡ احفظها"}
+            </button>
+          </div>
+        </section>
+
+        <section class="card hero">
+          <div class="ring">
+            <svg viewBox="0 0 100 100" aria-hidden="true">
+              <circle class="bg" cx="50" cy="50" r="38"></circle>
+              <circle class="fill" cx="50" cy="50" r="38" stroke-dasharray="${(totalCompleted / totalQ) * 238.8} 238.8"></circle>
+            </svg>
+            <b>${totalCompleted}/${totalQ}</b>
+          </div>
+          <div style="flex:1;">
+            <div class="mu">الصلاة القادمة</div>
+            <div class="big">${next.label}</div>
+            <div style="color:var(--ac);font-weight:800;">${formatClock(next.time)}</div>
+            <div class="mu">بعد ${hours} ساعة و ${minutes} دقيقة</div>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>اليوم</h2>
+          <div class="mu">صلوات: ${totalCompleted}/5 • مذاكرة: ${todayMinutes} دقيقة</div>
+          <div class="bar" style="margin-top:10px;">
+            <i style="width:${(totalCompleted / totalQ) * 100}%"></i>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>مهام قدامك</h2>
+          ${tasksOpen.length ? tasksOpen.map(task => `
+            <div class="it">
+              <span class="task-title">${esc(task.text)}</span>
+              <span class="mu">${esc(task.category)}</span>
+            </div>
+          `).join("") : '<div class="mu" style="padding-top:4px;">مفيش مهام، أضف واحدة من تبويب المهام</div>'}
+        </section>
+      `;
+    }
+
+    function renderPrayer(){
+      const todayTimes = prayerTimes(new Date());
+      const todayPrayers = appState.prayers[getTodayKey()] || {};
+      const last7 = Array.from({ length:7 }, (_, i) => {
+        const d = new Date();
+        d.setHours(0,0,0,0);
+        d.setDate(d.getDate() - i);
+        const dayPrayers = appState.prayers[getTodayKey(d)] || {};
+        const count = Object.values(dayPrayers).filter(Boolean).length;
+        return { day:d, count };
+      }).reverse();
+
+      return `
+        <section class="card">
+          <h2>مواقيت الصلاة – ${esc(appState.location.name)}</h2>
+          ${PRAYER_NAMES.map(([key,label]) => `
+            <div class="it">
+              <div>
+                <b>${label}</b>
+                <div class="mu">${formatClock(todayTimes[key])}</div>
+              </div>
+              <button class="checkbox ${todayPrayers[key] ? 'on' : ''}" onclick="togglePrayer('${key}')">${todayPrayers[key] ? '✓' : ''}</button>
+            </div>
+          `).join("")}
+
+          <div class="row" style="margin-top:12px; gap:8px;">
+            <button class="btn secondary small" onclick="useLocation()">استخدم موقعي</button>
+            <button class="btn secondary small" onclick="toggleNotifications()">${appState.notifications ? 'التنبيهات: مفعلة ✓' : 'التنبيهات: معطلة'}</button>
+          </div>
+
+          <div class="mu" style="margin-top:8px;">
+            الحساب بطريقة الهيئة المصرية. قارن بنتيجة أي تقويم رسمي حسب مسجدك.
+          </div>
+        </section>
+
+        ${renderAzkar()}
+
+        <section class="card">
+          <h2>التزامك آخر 7 أيام</h2>
+          ${last7.map(item => {
+            const percent = (item.count / 5) * 100;
+            return `
+              <div class="row" style="margin-top:8px; gap:8px; flex-wrap:nowrap;">
+                <span class="mu" style="width:70px;">${item.day.toLocaleDateString("ar-EG", { weekday:"short" })}</span>
+                <div class="bar" style="flex:1;">
+                  <i style="width:${percent}%"></i>
+                </div>
+                <span>${item.count}/5</span>
+              </div>
+            `;
+          }).join("")}
+        </section>
+      `;
+    }
+
+    function renderAzkar(){
+      const todayKey = getTodayKey() + azkarMode;
+      const done = appState.azkar[todayKey] || {};
+      const doneCount = AZKAR_LIST.reduce((count, [text, goal]) => count + ((done[text] || 0) >= goal ? 1 : 0), 0);
+
+      return `
+        <section class="card">
+          <div class="row between">
+            <h2>الأذكار</h2>
+            <div class="row" style="gap:6px;">
+              <button class="pill ${azkarMode === 'morning' ? 'active' : ''}" onclick="azkarMode='morning'; render()">الصباح</button>
+              <button class="pill ${azkarMode === 'evening' ? 'active' : ''}" onclick="azkarMode='evening'; render()">المساء</button>
+            </div>
+          </div>
+          <div class="bar" style="margin:8px 0 10px;">
+            <i style="width:${(doneCount / AZKAR_LIST.length) * 100}%"></i>
+          </div>
+          ${AZKAR_LIST.map(([text, goal], index) => {
+            const count = done[text] || 0;
+            const ok = count >= goal;
+            return `
+              <div class="it" style="gap:12px;">
+                <span class="task-title ${ok ? 'done' : ''}" style="font-family:'Amiri',serif; font-size:18px; line-height:1.8;">${esc(text)}</span>
+                <button class="btn small ${ok ? '' : 'secondary'}" onclick="addAzkar(${index})">${count}/${goal}</button>
+              </div>
+            `;
+          }).join("")}
+        </section>
+      `;
+    }
+
+    function renderStudy(){
+      const studyLog = appState.log[getTodayKey()] || {};
+
+      return `
+        <section class="card" style="text-align:center;">
+          <h2>مؤقت المذاكرة</h2>
+          <div class="big" style="font-size:52px; margin-top:6px;">${formatDurationSec(appState.study.left)}</div>
+
+          <div style="max-width:220px; margin:10px auto;">
+            <select onchange="appState.study.currentSubject = Number(this.value); saveState(); render();">
+              ${appState.subjects.map((sub, idx) => `
+                <option value="${idx}" ${idx === appState.study.currentSubject ? "selected" : ""}>${esc(sub)}</option>
+              `).join("")}
+            </select>
+          </div>
+
+          <div class="row" style="justify-content:center; margin-top:12px; gap:10px;">
+            <button class="btn" onclick="toggleStudyTimer()">${appState.study.running ? "إيقاف" : "ابدأ"}</button>
+          </div>
+
+          ${appState.study.paused ? `
+            <div class="warn">دخل وقت صلاة ${esc(appState.study.paused)}، المؤقت متوقف مؤقتًا، صلّي ثم عُد.</div>
+          ` : ""}
+          <div class="mu" style="margin-top:8px;">المؤقت يوقف نفسه تلقائيًا في وقت الصلاة.</div>
+        </section>
+
+        <section class="card">
+          <h2>المواد</h2>
+          ${appState.subjects.map((subject, index) => {
+            const total = studyLog[subject] || 0;
+            return `
+              <div class="it">
+                <span>${esc(subject)}</span>
+                <span class="mu">${Math.round(total / 60)} د اليوم
+                  <button class="btn ghost small" onclick="deleteSubject(${index})">✕</button>
+                </span>
+              </div>
+            `;
+          }).join("")}
+
+          <div class="row" style="margin-top:8px; gap:8px; flex-wrap:nowrap;">
+            <input id="newSubjectInput" placeholder="مادة جديدة" style="flex:1;">
+            <button class="btn" onclick="addSubject()">إضافة</button>
+          </div>
+        </section>
+      `;
+    }
+
+    function renderTasks(){
+      return `
+        <section class="card">
+          <div class="row" style="gap:8px; flex-wrap:nowrap;">
+            <input id="taskText" placeholder="مهمة جديدة" style="flex:1; min-width:0;">
+            <select id="taskCategory" style="width:100px;">
+              <option>دراسة</option>
+              <option>عبادة</option>
+              <option>شغل</option>
+              <option>بيت</option>
+              <option>صحة</option>
+            </select>
+            <button class="btn" onclick="addTask()">+</button>
+          </div>
+        </section>
+
+        <section class="card">
+          ${appState.tasks.length ? appState.tasks.map((task, index) => `
+            <div class="it">
+              <div class="row" style="flex:1; min-width:0; flex-wrap:nowrap;">
+                <button class="checkbox ${task.done ? 'on' : ''}" onclick="toggleTask(${index})">${task.done ? '✓' : ''}</button>
+                <span class="task-title ${task.done ? 'done' : ''}">${esc(task.text)}</span>
+              </div>
+              <span class="mu">${esc(task.category)}
+                <button class="btn ghost small" onclick="deleteTask(${index})">✕</button>
+              </span>
+            </div>
+          `).join("") : '<div class="mu">لسه مفيش مهام.</div>'}
+        </section>
+      `;
+    }
+
+    const CHART_COLORS = ["#0f5c43","#c19a3e","#1b8a65","#9a7420","#5aa88c","#e0b858","#3d7a64","#b8863a"];
+
+    function fmtMin(sec){
+      const m = Math.round(sec / 60);
+      if (m >= 60) return Math.floor(m / 60) + "س " + (m % 60) + "د";
+      return m + "د";
+    }
+
+    function donut(segs, main, sub){
+      const total = segs.reduce((sum, x) => sum + x.value, 0);
+      const R = 38, C = 2 * Math.PI * R;
+      let offset = 0;
+      const arcs = total > 0 ? segs.filter(x => x.value > 0).map(x => {
+        const len = (x.value / total) * C;
+        const el = `<circle cx="50" cy="50" r="${R}" fill="none" stroke="${x.color}" stroke-width="14" stroke-dasharray="${len} ${C - len}" stroke-dashoffset="${-offset}"></circle>`;
+        offset += len;
+        return el;
+      }).join("") : "";
+      return `
+        <div class="donut">
+          <svg viewBox="0 0 100 100" aria-hidden="true">
+            <circle cx="50" cy="50" r="${R}" fill="none" stroke="var(--bd)" stroke-width="14"></circle>
+            ${arcs}
+          </svg>
+          <div class="dc"><b>${main}</b><span>${sub}</span></div>
+        </div>`;
+    }
+
+    function legend(segs, fmt){
+      const total = segs.reduce((sum, x) => sum + x.value, 0) || 1;
+      return `<div class="legend">${segs.map(x => `
+        <div class="li">
+          <span class="dot" style="background:${x.color}"></span>
+          <span class="nm">${esc(x.name)}</span>
+          <span class="mu">${fmt(x.value)} • ${Math.round((x.value / total) * 100)}%</span>
+        </div>`).join("")}</div>`;
+    }
+
+    function renderStats(){
+      const totalBySubject = {};
+      for (const dayKey in appState.log) {
+        const obj = appState.log[dayKey];
+        for (const subject in obj) {
+          totalBySubject[subject] = (totalBySubject[subject] || 0) + Number(obj[subject] || 0);
+        }
+      }
+
+      const studySegs = Object.entries(totalBySubject)
+        .filter(([, v]) => v > 0)
+        .sort((a, b) => b[1] - a[1])
+        .map(([name, value], i) => ({ name, value, color: CHART_COLORS[i % CHART_COLORS.length] }));
+      const studyTotal = studySegs.reduce((sum, x) => sum + x.value, 0);
+
+      const tasksDone = appState.tasks.filter(t => t.done).length;
+      const tasksTotal = appState.tasks.length;
+      const taskSegs = [
+        { name:"منجزة", value: tasksDone, color:"#1b8a65" },
+        { name:"متبقية", value: tasksTotal - tasksDone, color:"#c19a3e" }
+      ];
+
+      let prayed = 0;
+      for (let i = 0; i < 7; i++) {
+        const d = new Date();
+        d.setHours(0,0,0,0);
+        d.setDate(d.getDate() - i);
+        prayed += Object.values(appState.prayers[getTodayKey(d)] || {}).filter(Boolean).length;
+      }
+      const prayerSegs = [
+        { name:"صلوات تم أداؤها", value: prayed, color:"#0f5c43" },
+        { name:"لم تُسجَّل", value: 35 - prayed, color:"#c19a3e" }
+      ];
+
+      return `
+        <section class="card">
+          <h2>توزيع وقت المذاكرة</h2>
+          ${studySegs.length ? `
+            <div class="chart-row">
+              ${donut(studySegs, fmtMin(studyTotal), "الإجمالي")}
+              ${legend(studySegs, fmtMin)}
+            </div>` : '<div class="mu">ابدأ جلسة مذاكرة وستظهر هنا.</div>'}
+        </section>
+
+        <section class="card">
+          <h2>إنجاز المهام</h2>
+          ${tasksTotal ? `
+            <div class="chart-row">
+              ${donut(taskSegs, Math.round((tasksDone / tasksTotal) * 100) + "%", tasksDone + " من " + tasksTotal)}
+              ${legend(taskSegs, v => v)}
+            </div>` : '<div class="mu">أضف مهام وستظهر هنا.</div>'}
+        </section>
+
+        <section class="card">
+          <h2>الالتزام بالصلاة (آخر 7 أيام)</h2>
+          <div class="chart-row">
+            ${donut(prayerSegs, Math.round((prayed / 35) * 100) + "%", prayed + " من 35")}
+            ${legend(prayerSegs, v => v)}
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>آياتي المحفوظة</h2>
+          ${appState.savedVerses.length ? appState.savedVerses.map(verse => `
+            <div class="it">
+              <span style="font-family:'Amiri',serif; font-size:20px;">﴿ ${esc(verse)} ﴾</span>
+            </div>
+          `).join("") : '<div class="mu">احفظ الآيات من الصفحة الرئيسية.</div>'}
+        </section>
+
+        <section class="card">
+          <div class="mu">ملحوظة: الآيات المضمّنة عينة قليلة، راجعها على المصحف قبل النشر، ويمكنك توسيعها من مصدر موثوق.</div>
+        </section>
+      `;
+    }
+
+    const views = [renderHome, renderPrayer, renderStudy, renderTasks, renderStats];
+    const navLabels = ["الرئيسية","الصلاة","الدراسة","المهام","إحصائيات"];
+    const navIcons = [
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5v8.5a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h6a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4zM20 4h-6a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h7z"/></svg>',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg>',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg>'
+    ];
+
+    function renderNav(){
+      const nav = document.getElementById("nav");
+      nav.innerHTML = navLabels.map((label, idx) => `
+        <button class="${idx === activeTab ? 'active' : ''}" onclick="setTab(${idx})">
+          ${navIcons[idx]}
+          <span>${label}</span>
+        </button>
+      `).join("");
+    }
+
+    function setTab(index){
+      activeTab = index;
+      render();
+    }
+
+    function render(){
+      const app = document.getElementById("app");
+      const scrollY = window.scrollY;
+      const focusId = document.activeElement && document.activeElement.id;
+      app.innerHTML = views[activeTab]();
+      document.getElementById("dateText").textContent = new Date().toLocaleDateString("ar-EG", {
+        weekday:"long",
+        day:"numeric",
+        month:"long"
+      });
+      renderNav();
+      checkTheme();
+      window.scrollTo(0, scrollY);
+    }
+
+    function addSubject(){
+      const input = document.getElementById("newSubjectInput");
+      if(!input) return;
+      const value = input.value.trim();
+      if(!value) return;
+      appState.subjects.push(value);
+      saveState();
+      render();
+    }
+
+    function deleteSubject(index){
+      if(appState.subjects.length <= 1) return;
+      appState.subjects.splice(index,1);
+      if(appState.study.currentSubject >= appState.subjects.length) appState.study.currentSubject = 0;
+      saveState();
+      render();
+    }
+
+    function addTask(){
+      const text = document.getElementById("taskText")?.value.trim();
+      const category = document.getElementById("taskCategory")?.value || "دراسة";
+      if(!text) return;
+      appState.tasks.unshift({ text, category, done:false });
+      saveState();
+      render();
+    }
+
+    function toggleTask(index){
+      appState.tasks[index].done = !appState.tasks[index].done;
+      if(appState.tasks[index].done){
+        pickVerse();
+        playBell();
+        toast("تم إنجاز المهمة 🎉");
+      }
+      saveState();
+      render();
+    }
+
+    function deleteTask(index){
+      appState.tasks.splice(index,1);
+      saveState();
+      render();
+    }
+
+    function toggleVerseSave(i){
+      const text = (VERSES[i] || VERSES[0])[0];
+      if(appState.savedVerses.includes(text)){
+        appState.savedVerses = appState.savedVerses.filter(v => v !== text);
+      } else {
+        appState.savedVerses.push(text);
+      }
+      saveState();
+      render();
+    }
+
+    function togglePrayer(key){
+      const d = getTodayKey();
+      appState.prayers[d] = appState.prayers[d] || {};
+      appState.prayers[d][key] = !appState.prayers[d][key];
+      if(appState.prayers[d][key]) playBell();
+      saveState();
+      render();
+    }
+
+    function addAzkar(index){
+      const selected = AZKAR_LIST[index];
+      if(!selected) return;
+      const todayKey = getTodayKey() + azkarMode;
+      appState.azkar[todayKey] = appState.azkar[todayKey] || {};
+      const [text, goal] = selected;
+      const current = appState.azkar[todayKey][text] || 0;
+      if(current < goal){
+        appState.azkar[todayKey][text] = current + 1;
+      }
+      saveState();
+      render();
+    }
+
+    function toggleStudyTimer(){
+      const study = appState.study;
+      if (study.running) {
+        study.running = false;
+        if (study.elapsed % 60) {
+          logStudyMinute(study.elapsed % 60, study.currentSubject);
+        }
+        clearInterval(studyTimer);
+        studyTimer = null;
+        study.elapsed = 0;
+      } else {
+        const prayerNow = inPrayer();
+        if (prayerNow) {
+          study.paused = prayerNow;
+          saveState();
+          render();
+          toast("حان وقت الصلاة، المؤقت متوقف مؤقتًا");
+          return;
+        }
+        study.running = true;
+        study.paused = null;
+        studyTimer = setInterval(tickStudy, 1000);
+      }
+      saveState();
+      render();
+    }
+
+    function tickStudy(){
+      const study = appState.study;
+      const prayerNow = inPrayer();
+      if (prayerNow) {
+        if (study.elapsed % 60) logStudyMinute(study.elapsed % 60, study.currentSubject);
+        study.elapsed = 0;
+        study.running = false;
+        study.paused = prayerNow;
+        clearInterval(studyTimer);
+        studyTimer = null;
+        saveState();
+        render();
+        return;
+      }
+
+      study.left -= 1;
+      study.elapsed += 1;
+
+      if (study.elapsed % 60 === 0) {
+        logStudyMinute(60, study.currentSubject);
+      }
+
+      if (study.left <= 0) {
+        const rest = study.elapsed % 60;
+        if (rest) logStudyMinute(rest, study.currentSubject);
+        study.running = false;
+        clearInterval(studyTimer);
+        studyTimer = null;
+        study.left = 1500;
+        study.elapsed = 0;
+        saveState();
+        render();
+        toast("انتهى المؤقت 🎯");
+        return;
+      }
+
+      render();
+    }
+
+    function logStudyMinute(seconds, subjectIndex){
+      const key = getTodayKey();
+      const subjectName = appState.subjects[subjectIndex] || "عام";
+      appState.log[key] = appState.log[key] || {};
+      appState.log[key][subjectName] = (appState.log[key][subjectName] || 0) + seconds;
+      saveState();
+    }
+
+    function inPrayer(){
+      const now = new Date();
+      const times = prayerTimes(now);
+      for (const [key,label] of PRAYER_NAMES) {
+        if (now >= times[key] && now - times[key] < 20 * 60 * 1000) return label;
+      }
+      return null;
+    }
+
+    function useLocation(){
+      if (!navigator.geolocation) {
+        toast("الجهاز لا يدعم الموقع");
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition((pos) => {
+        appState.location = {
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude,
+          name: "موقعي"
+        };
+        saveState();
+        render();
+        toast("تم تحديث موقعك");
+      }, () => {
+        toast("تعذر تحديد الموقع، سيتم استخدام القاهرة");
+      });
+    }
+
+    function toggleNotifications(){
+      appState.notifications = !appState.notifications;
+      saveState();
+      render();
+    }
+
+    function sendAlerts(){
+      if (!appState.notifications) return;
+
+      const now = new Date();
+      const times = prayerTimes(now);
+      const events = [];
+      for (const [key,label] of PRAYER_NAMES) {
+        const minsLeft = Math.round((times[key] - now) / 60000);
+        if (minsLeft === 5) events.push(`باقي 5 دقائق على أذان ${label} 🔔`);
+        if (minsLeft === 0) events.push(`حان الآن موعد أذان ${label} 🔔`);
+      }
+      if (Math.round((now - times.fajr) / 60000) === 30) events.push("وقت أذكار الصباح");
+      if (Math.round((now - times.asr) / 60000) === 30) events.push("وقت أذكار المساء");
+
+      for (const msg of events) {
+        const key = msg + getTodayKey();
+        if (!fired.has(key)) {
+          fired.add(key);
+          playBell();
+          toast(msg);
+        }
+      }
+    }
+
+    function showSplash(){
+      const overlay = document.createElement("div");
+      overlay.className = "overlay";
+      const verse = VERSES[currentVerseIndex] || VERSES[0];
+      const hr = new Date().getHours();
+      overlay.innerHTML = `
+        <div class="box">
+          <div class="greeting">${hr < 12 ? "صباح الخير" : hr < 18 ? "نهارك سعيد" : "مساء الخير"}</div>
+          <div class="verse">
+            <div class="a">﴿ ${esc(verse[0])} ﴾</div>
+            <div class="r">${esc(verse[1])}</div>
+          </div>
+          <button>ابدأ يومك</button>
+        </div>
+      `;
+      overlay.querySelector("button").addEventListener("click", () => {
+        overlay.classList.add("hidden");
+        setTimeout(() => overlay.remove(), 500);
+      });
+      document.body.appendChild(overlay);
+    }
+
+    function boot(){
+      pickVerse();
+      render();
+      setInterval(() => {
+        const a = document.activeElement;
+        const typing = a && (a.tagName === "INPUT" || a.tagName === "SELECT");
+        if (activeTab === 0 && !appState.study.running && !typing) render();
+      }, 30000);
+
+      setInterval(sendAlerts, 20000);
+      showSplash();
+    }
+
+    boot();
+  </script>
+</body>
+</html>
